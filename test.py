@@ -1,5 +1,4 @@
 import pytest
-import nbimporter
 import platform
 import json
 import pandas as pd
@@ -13,11 +12,21 @@ from tensorflow.keras.utils import set_random_seed
 from numpy.testing import assert_array_equal, assert_allclose
 from dataclasses import dataclass
 
+from nbimport import find_notebook, NotebookLoader
 
-from sequencelabeling import (get_vocabulary, integrate_sentences, format_examples,
-                              create_model, train_model, make_predictions,
-                              create_embedding_matrix, create_model_with_embeddings)
 
+nb_path = find_notebook('sequencelabeling')
+loader = NotebookLoader(nb_path)
+nb_module = loader.load_module('sequencelabeling')
+
+get_vocabulary = nb_module.get_vocabulary
+integrate_sentences = nb_module.integrate_sentences
+format_examples = nb_module.format_examples
+create_model = nb_module.create_model
+train_model = nb_module.train_model
+make_predictions = nb_module.make_predictions
+create_embedding_matrix = nb_module.create_embedding_matrix
+create_model_with_embeddings = nb_module.create_model_with_embeddings
 
 tf.config.run_functions_eagerly(True)
 tf.data.experimental.enable_debug_mode()
