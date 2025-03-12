@@ -1,0 +1,90 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: test_get_vocabulary
+      id: test_get_vocabulary
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_get_vocabulary
+        setup-command: pip install -r requirements.txt
+        command: pytest test.py -k 'test_get_vocabulary'
+        timeout: 10
+        max-score: 16
+    - name: test_format_examples
+      id: test_format_examples
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_format_examples
+        setup-command: ''
+        command: pytest test.py -k 'test_format_examples'
+        timeout: 10
+        max-score: 16
+    - name: test_create_model
+      id: test_create_model
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_create_model
+        setup-command: ''
+        command: pytest test.py -k 'test_create_model'
+        timeout: 10
+        max-score: 16
+    - name: test_train_model
+      id: test_train_model
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_train_model
+        setup-command: ''
+        command: pytest test.py -k 'test_train_model'
+        timeout: 10
+        max-score: 16
+    - name: test_make_predictions
+      id: test_make_predictions
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_make_predictions
+        setup-command: ''
+        command: pytest test.py -k 'test_make_predictions'
+        timeout: 10
+        max-score: 16
+    - name: test_create_embedding_matrix
+      id: test_create_embedding_matrix
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_create_embedding_matrix
+        setup-command: ''
+        command: pytest test.py -k 'test_create_embedding_matrix'
+        timeout: 10
+        max-score: 10
+    - name: test_create_model_with_embeddings
+      id: test_create_model_with_embeddings
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_create_model_with_embeddings
+        setup-command: ''
+        command: pytest test.py -k 'test_create_model_with_embeddings'
+        timeout: 10
+        max-score: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        TEST_GET_VOCABULARY_RESULTS: "${{steps.test_get_vocabulary.outputs.result}}"
+        TEST_FORMAT_EXAMPLES_RESULTS: "${{steps.test_format_examples.outputs.result}}"
+        TEST_CREATE_MODEL_RESULTS: "${{steps.test_create_model.outputs.result}}"
+        TEST_TRAIN_MODEL_RESULTS: "${{steps.test_train_model.outputs.result}}"
+        TEST_MAKE_PREDICTIONS_RESULTS: "${{steps.test_make_predictions.outputs.result}}"
+        TEST_CREATE_EMBEDDING_MATRIX_RESULTS: "${{steps.test_create_embedding_matrix.outputs.result}}"
+        TEST_CREATE_MODEL_WITH_EMBEDDINGS_RESULTS: "${{steps.test_create_model_with_embeddings.outputs.result}}"
+      with:
+        runners: test_get_vocabulary,test_format_examples,test_create_model,test_train_model,test_make_predictions,test_create_embedding_matrix,test_create_model_with_embeddings
