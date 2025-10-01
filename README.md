@@ -1,4 +1,4 @@
-## Sequence Labeling for NLP (Assignment 3)
+## Sequence Labeling for NLP
 
 This repository implements a sequence labeling model for NLP (e.g., NER/POS) using recurrent neural networks and optional pre-trained word embeddings.
 
@@ -102,3 +102,4 @@ Academic/educational use.
 ### Acknowledgements
 - GloVe embeddings from Stanford NLP
 - Course scaffolding and test artifacts provided as part of the assignment
+
